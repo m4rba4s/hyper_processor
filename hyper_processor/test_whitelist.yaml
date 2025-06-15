@@ -1,0 +1,11 @@
+# Generated whitelist from audit logs
+# Generated at: 2025-06-03 13:58:21
+# Total libraries: 2
+
+audit_mode: false
+
+whitelisted_filenames:
+  - "libgcc_s-15-20250521.so.1"
+  - "libhyper_processor.so"
+  - "libevil.so"
+  - "libcustom.so"

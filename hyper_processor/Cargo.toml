@@ -1,0 +1,62 @@
+[package]
+name = "hyper_processor"
+version = "2.3.0"
+edition = "2021"
+authors = ["HyperProcessor Team"]
+description = "Runtime Application Self-Protection (RASP) library for detecting unauthorized LD_PRELOAD libraries"
+
+[lib]
+name = "hyper_processor"
+path = "src/lib.rs"
+crate-type = ["rlib", "cdylib"]
+
+[[bin]]
+name = "hyper-processor"
+path = "src/bin/cli.rs"
+required-features = ["cli"]
+
+[dependencies]
+# Core functionality
+log = "0.4"          # Logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["json", "env-filter"] }
+nix = { version = "0.27", features = ["process", "signal"] } # For getppid and kill
+libc = "0.2"         # Added for FFI types like size_t, ssize_t
+ctor = "0.2"         # For library initialization
+anyhow = "1.0"       # Assuming anyhow is used for error handling elsewhere
+config = { version = "0.14", features = ["yaml"] } # Added config with YAML feature
+serde = { version = "1.0", features = ["derive"] }  # Added serde
+sha2 = "0.10"        # For SHA256 hash calculation
+
+# CLI dependencies (optional)
+clap = { version = "4.5", features = ["derive", "env"], optional = true }
+tokio = { version = "1.35", features = ["rt-multi-thread", "macros", "signal"], optional = true }
+serde_json = { version = "1.0", optional = true }
+tempfile = { version = "3.10", optional = true }
+
+# Metrics dependencies (optional)
+prometheus = { version = "0.13", optional = true }
+hyper = { version = "0.14", features = ["server", "tcp", "http1"], optional = true }
+
+# Learning mode dependencies
+chrono = { version = "0.4", optional = true }
+
+# eBPF dependencies (optional)
+aya = { version = "0.12", optional = true }
+
+[dev-dependencies]
+tempfile = "3.10"    # For creating temporary files in tests
+
+[features]
+default = []
+cli = ["clap", "tokio", "metrics", "learning", "serde_json", "tempfile"]
+metrics = ["prometheus", "hyper", "tokio"]
+learning = ["chrono"]
+ebpf = ["aya", "tokio"]  # eBPF integration for kernel-level checks
+
+[profile.release]
+lto = true           # Link-time optimization
+codegen-units = 1    # Optimize for size and performance
+opt-level = 3        # Maximum optimization
+panic = "abort"      # Remove panic unwinding for smaller binary size
+debug = false        # No debug symbols in release

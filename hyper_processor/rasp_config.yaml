@@ -1,0 +1,3 @@
+# HyperProcessor RASP Configuration
+audit_mode: false
+whitelisted_filenames: []

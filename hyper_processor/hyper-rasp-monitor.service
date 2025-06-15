@@ -1,0 +1,23 @@
+[Unit]
+Description=HyperProcessor RASP Monitor Service
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/hyper_processor
+Environment="RUST_LOG=hyper_processor=info"
+Environment="HYPER_RASP_AUDIT_MODE=true"
+ExecStart=/opt/hyper_processor/rasp-daemon
+Restart=always
+RestartSec=10
+
+# Security hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/log/hyper_rasp
+
+[Install]
+WantedBy=multi-user.target 

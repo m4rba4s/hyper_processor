@@ -1,0 +1,7 @@
+# Generated whitelist from audit logs
+# Generated at: 2025-06-03 13:04:14
+# Total libraries: 0
+
+audit_mode: false
+
+whitelisted_filenames:

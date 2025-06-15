@@ -1,0 +1,20 @@
+[package]
+name = "hyper_processor_ebpf"
+version = "2.3.0"
+edition = "2021"
+
+[dependencies]
+aya-bpf = "0.1"
+aya-log-ebpf = "0.1"
+
+[build-dependencies]
+cargo-bpf = "2.3"
+
+[profile.release]
+panic = "abort"
+lto = true
+opt-level = 3
+
+[[bin]]
+name = "hyper_processor_ebpf"
+path = "src/main.rs" 

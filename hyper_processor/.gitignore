@@ -1,0 +1,13 @@
+/target
+Cargo.lock
+config/local.toml
+
+# Editor directories and files
+.idea/
+.vscode/
+*.iml
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
